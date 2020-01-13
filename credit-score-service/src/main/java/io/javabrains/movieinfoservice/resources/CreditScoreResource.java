@@ -19,6 +19,14 @@ public class CreditScoreResource {
     
     @RequestMapping("/{userId}")
    	public String generateScore(@PathVariable("userId") String userId) {
+    	try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Credit service taking longer than hystrix threshold time which is 2000 ms");
+			e.printStackTrace();
+		}
+    	System.out.println("Inside generateScore() of Credit Score service");
    		return "100";
    	}
 
