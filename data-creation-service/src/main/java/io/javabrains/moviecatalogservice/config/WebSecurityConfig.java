@@ -46,12 +46,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		/*httpSecurity.csrf().disable().authorizeRequests().antMatchers("/actuator/hystrix.stream").permitAll()
-				.antMatchers("/hystrix").permitAll().anyRequest().authenticated().and().exceptionHandling().and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
-		httpSecurity.csrf().disable().authorizeRequests().antMatchers("*/*").permitAll().
-		and().exceptionHandling().and()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/user/*")/*.permitAll()
+				.antMatchers("/hystrix").permitAll().anyRequest()*/.authenticated().and().exceptionHandling().and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		//httpSecurity.csrf().disable().authorizeRequests().antMatchers("*/*").permitAll().
+		//and().exceptionHandling().and()
+		//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
 	}
