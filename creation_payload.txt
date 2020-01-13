@@ -1,0 +1,11 @@
+{
+	"userId": 584896,
+	"userName": "Krishnendu",
+	"userSurname": "Bhowmick",
+	"location": "Kolkata",
+	"incomeGroup": "Middle",
+	"creditScore": ""
+}
+
+
+message server url : http://localhost:8161
