@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+
 import io.javabrains.moviecatalogservice.models.User;
 
 @RestController
@@ -35,6 +38,15 @@ public class UserResource {
 	}
     
     @RequestMapping({ "/create" })
+    @HystrixCommand(fallbackMethod="createUserFallback",
+    commandProperties= {
+    	@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value="2000"),
+    	//@HystrixProperty(name = "hystrix.command.default.circuitBreaker.enabled", value = "false"),
+    	@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value="3"),
+    	//@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value="50")
+    	
+    })
+    //@HystrixCommand(fallbackMethod="createUserFallback")
    	public User createUser(@RequestBody User user) {
    		String rating =  restTemplate.getForObject("http://credit-score-service/creditscore/"+user.getUserId(),String.class);
    		user.setCreditScore(rating);
@@ -46,6 +58,14 @@ public class UserResource {
    		return user;
    		
    	}
+    
+	private User createUserFallback(User user)
+	{
+
+		System.out.println("Inside Fall back method :::: ");
+		user.setCreditScore("99.99");
+		return user;
+	}
 
     /*@RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
