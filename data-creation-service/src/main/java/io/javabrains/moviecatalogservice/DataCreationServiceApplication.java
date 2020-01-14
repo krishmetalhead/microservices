@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 
+import brave.sampler.Sampler;
+
 
 
 @SpringBootApplication
@@ -28,6 +30,11 @@ public class DataCreationServiceApplication {
 	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
+	}
+	
+	@Bean
+	public Sampler defaultSampler() {
+		return Sampler.ALWAYS_SAMPLE;
 	}
 	
 	@Bean

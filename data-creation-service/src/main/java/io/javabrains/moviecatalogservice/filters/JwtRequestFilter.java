@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import io.javabrains.moviecatalogservice.MyUserDetailsService;
 import io.javabrains.moviecatalogservice.util.JwtUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Component
@@ -26,11 +28,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
+    
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
+    	LOG.info("Inside doFilterInternal method of JWT Filter of Data Creation Service");
         final String authorizationHeader = request.getHeader("Authorization");
 
         String username = null;

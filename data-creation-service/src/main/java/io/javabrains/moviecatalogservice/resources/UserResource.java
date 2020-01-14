@@ -2,6 +2,8 @@ package io.javabrains.moviecatalogservice.resources;
 
 import javax.jms.Queue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +33,8 @@ public class UserResource {
     @Autowired
     WebClient.Builder webClientBuilder;
     
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    
     @RequestMapping({ "/test" })
 	public String firstPage() {
 		return "This is test service";
@@ -48,11 +52,12 @@ public class UserResource {
     })
     //@HystrixCommand(fallbackMethod="createUserFallback")
    	public User createUser(@RequestBody User user) {
+    	LOG.info("Inside createUser method of UserResource of Data Creation Service");
    		String rating =  restTemplate.getForObject("http://credit-score-service/creditscore/"+user.getUserId(),String.class);
    		user.setCreditScore(rating);
    		//Jpa code to push to actual data base
    		//If no error push the payload to active mq
-   		System.out.println("Sending message into queue");
+   		LOG.info("Sending message into queue");
    		jmsTemplate.convertAndSend(queue, "User Created");     
    		
    		return user;
