@@ -1,10 +1,14 @@
 package io.queue.activemq.consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MessageReceiver {
+	
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
  
 	@JmsListener(destination = "spring-microservice-example-queue")
 	public void receiveQueue(String text) {
@@ -13,7 +17,7 @@ public class MessageReceiver {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Message Received: "+text);
+		LOG.info("Inside receiveQueue method of MessageReceiver of User Queue Service"); 		
 	}
 }
 
