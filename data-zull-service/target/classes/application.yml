@@ -1,0 +1,11 @@
+zuul:
+  routes:
+    create:
+      path: /create/**
+      serviceId: data-creation-service      
+    update:
+      path: /update/**
+      serviceId: data-update-service
+    view:
+      path: /view/**
+      serviceId: data-view-service
