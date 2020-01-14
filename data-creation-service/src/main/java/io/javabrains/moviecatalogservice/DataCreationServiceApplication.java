@@ -17,7 +17,7 @@ import brave.sampler.Sampler;
 
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 @EnableCircuitBreaker
 @EnableHystrixDashboard
 public class DataCreationServiceApplication {
@@ -26,7 +26,7 @@ public class DataCreationServiceApplication {
 		SpringApplication.run(DataCreationServiceApplication.class, args);
 	}
 
-	@LoadBalanced
+	//@LoadBalanced
 	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();

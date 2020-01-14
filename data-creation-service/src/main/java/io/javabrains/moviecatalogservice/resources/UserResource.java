@@ -5,6 +5,7 @@ import javax.jms.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,9 @@ public class UserResource {
     @Autowired
     WebClient.Builder webClientBuilder;
     
+    @Autowired
+    private Environment env;
+    
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
     
     @RequestMapping({ "/test" })
@@ -53,6 +57,7 @@ public class UserResource {
     //@HystrixCommand(fallbackMethod="createUserFallback")
    	public User createUser(@RequestBody User user) {
     	LOG.info("Inside createUser method of UserResource of Data Creation Service");
+    	LOG.info("Working on port " + env.getProperty("local.server.port"));
    		String rating =  restTemplate.getForObject("http://credit-score-service/creditscore/"+user.getUserId(),String.class);
    		user.setCreditScore(rating);
    		//Jpa code to push to actual data base
