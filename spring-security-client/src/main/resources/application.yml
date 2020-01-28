@@ -1,0 +1,16 @@
+
+application:
+    name: oauthresource
+
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:8081/auth/oauth/check_token
+    client:
+      client-id: ClientId
+      client-secret: secret
+
+
+spring:
+  thymeleaf:
+    cache: false
